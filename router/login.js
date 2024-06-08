@@ -6,39 +6,45 @@ const Schema = require('../models/account');
 module.exports = function (app) {
     const router = Router()
 
-    router.post('/', async function (req, res, next) {
-        const { email, username, password } = req.body;
+    router.post('/', async function (req, res) {
 
-        const UserInfo = await User.find({
-            $or: [
-                { email: email },
-                { username: username }
-            ]
-        });
+        const { username } = req.body;
 
-        if(!UserInfo) {
-            return res.status(403).json({ code : 403 , message : 'Not Authorized' });
+        const UserInfo = await Schema.findOne({ username : username })
+
+        if (!UserInfo) {
+            return res.status(403).json({ code: 403, message: 'Not Authorized' });
         }
 
-        try { 
-     
-            const accessToken = jwt.sign({ email: UserInfo.email, username: UserInfo.username }, app.get('ACCESS_SECRET'), { expiresIn: '1m', issuer: 'About Tech' });
-            const refreshToken = jwt.sign({ email: UserInfo.email, username: UserInfo.username }, app.get('REFRECH_SECRET'), { expiresIn: '24h', issuer: 'About Tech' })
-            
+        try {
+            const accessToken = jwt.sign({ email: UserInfo.email, username: UserInfo.username }, process.env.ACCESS_SECRET, { expiresIn: '1m', issuer: 'About Tech' });
+            const refreshToken = jwt.sign({ email: UserInfo.email, username: UserInfo.username }, process.env.REFRECH_SECRET, { expiresIn: '1m', issuer: 'About Tech' })
+
             res.cookie("accessToken", accessToken, { secure: false, httpOnly: true })
             res.cookie("refreshToken", refreshToken, { secure: false, httpOnly: true })
 
-
-        } catch(error) { 
-
+            return res.status(200).json({ status: 200, message: 'login success' });
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json({ status: 500, message: error });
         }
 
     });
 
 
-    router.get('/', async function (req, res) { res.status(400).json({ "code": 400, "message": "A required request variable is missing." }) })
+    router.get('/success', async function (req, res) {
+        try {
+            const token = req.cookies.accessToken;
+            const data = jwt.verify(token, process.env.ACCESS_SECRET);
 
+            const userData = await Schema.findOne({ username : data.username })
 
+            return res.status(200).json(userData);
+        } catch (error) {
+            return res.status(500).json({ code: 500, message: error });
+        }
+
+    });
 
     return router;
 }
