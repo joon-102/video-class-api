@@ -8,9 +8,9 @@ module.exports = function (app) {
 
     router.post('/', async function (req, res) {
 
-        const { username } = req.body;
+        const { email , password } = req.body;
 
-        const UserInfo = await Schema.findOne({ username : username })
+        const UserInfo = await Schema.findOne({ email : email , password : password })
 
         if (!UserInfo) {
             return res.status(403).json({ code: 403, message: 'Not Authorized' });
@@ -31,13 +31,12 @@ module.exports = function (app) {
 
     });
 
-
     router.get('/success', async function (req, res) {
         try {
             const token = req.cookies.accessToken;
             const data = jwt.verify(token, process.env.ACCESS_SECRET);
 
-            const userData = await Schema.findOne({ username : data.username })
+            const userData = await Schema.findOne({ email : data.email })
 
             return res.status(200).json(userData);
         } catch (error) {

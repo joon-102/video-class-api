@@ -11,7 +11,7 @@ module.exports = function (app) {
             const token = req.cookies.accessToken;
             const data = jwt.verify(token, process.env.ACCESS_SECRET);
 
-            const UserInfo = await Schema.findOne({ username : data.username })
+            const UserInfo = await Schema.findOne({ email : data.email })
 
             const { password, ...others } = UserInfo;
 
