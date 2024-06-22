@@ -10,6 +10,12 @@
       {
         "src": "/(.*)",
         "dest": "/index.js"
+      },
+      {
+        "src": "/api/v1/(.*)",
+        "dest": "https://video-class-api.vercel.app/api/v1/$1"
       }
+      
+      
     ]
   }
