@@ -1,5 +1,5 @@
 const cookieParser = require("cookie-parser");
-const mongoose= require('mongoose');
+const mongoose = require('mongoose');
 const express = require('express');
 const path = require('node:path');
 const dotenv = require("dotenv");
@@ -12,13 +12,14 @@ dotenv.config();
 
 app.set("PORT", process.env.PORT)
 app.set('MONGOOSE', process.env.MONGOOSE)
+app.set('ORIGIN', process.env.ORIGIN || "http://localhost:3000")
 
 app.disable("x-powered-by");
 
 app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:3000", methods: ["GET", "POST"], credentials: true }));
+app.use(cors({ origin: app.get('ORIGIN'), methods: ["GET", "POST"], credentials: true }));
 
 
 fs.readdirSync(path.join(process.cwd(), "router")).forEach(file => {
