@@ -11,7 +11,7 @@ module.exports = function (app) {
             const token = req.cookies.refreshToken;
             const data = jwt.verify(token, process.env.REFRECH_SECRET)
 
-            const userData = await Schema.findOne({ username : data.username })
+            const userData = await Schema.findOne({ email : data.email })
 
             const accessToken = jwt.sign({ username: userData.username, email: userData.email }, process.env.ACCESS_SECRET, { expiresIn: '1m', issuer: 'About Tech', });
 
