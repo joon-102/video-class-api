@@ -19,21 +19,10 @@ app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
-    origin: "*",
+    origin: "https://video-class.vercel.app/",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
 }));
-
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://video-class.vercel.app");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-    res.header("Access-Control-Allow-Credentials", "true"); // 쿠키를 포함한 인증 정보 허용
-    if (req.method === "OPTIONS") {
-        return res.status(200).end();
-    }
-    next();
-});
 
 fs.readdirSync(path.join(process.cwd(), "router")).forEach(file => {
     try {
