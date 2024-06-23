@@ -10,6 +10,7 @@ const cors = require('cors');
 const app = express()
 dotenv.config();
 
+const allowedOrigins = ['https://video-class.vercel.app'];
 app.set("PORT", process.env.PORT)
 app.set('MONGOOSE', process.env.MONGOOSE)
 
