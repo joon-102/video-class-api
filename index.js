@@ -19,9 +19,14 @@ app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true,
+    origin: function (origin, callback) {
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true 
 }));
 
 fs.readdirSync(path.join(process.cwd(), "router")).forEach(file => {
