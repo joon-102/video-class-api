@@ -10,7 +10,6 @@ const cors = require('cors');
 const app = express()
 dotenv.config();
 
-const allowedOrigins = ['https://video-class.vercel.app'];
 app.set("PORT", process.env.PORT)
 app.set('MONGOOSE', process.env.MONGOOSE)
 
@@ -19,11 +18,7 @@ app.disable("x-powered-by");
 app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors({
-    origin : ["https://video-class.vercel.app/" , "https://video-class.vercel.app"],
-    credentials: true 
-}));
-
+app.use(cors({ origin: "https://video-class.vercel.app", methods: ["GET", "POST"], credentials: true }));
 
 fs.readdirSync(path.join(process.cwd(), "router")).forEach(file => {
     try {
