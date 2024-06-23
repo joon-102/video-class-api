@@ -12,7 +12,11 @@ dotenv.config();
 
 app.set("PORT", process.env.PORT)
 app.set('MONGOOSE', process.env.MONGOOSE)
-app.set('ORIGIN', process.env.ORIGIN || "http://localhost:3000")
+app.use(cors({
+    origin: "https://video-class.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
+}));
 
 app.disable("x-powered-by");
 
