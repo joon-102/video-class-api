@@ -20,6 +20,14 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(cors({ origin: "https://video-class.vercel.app", methods: ["GET", "POST"], credentials: true }));
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'https://video-class.vercel.app');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
+
 fs.readdirSync(path.join(process.cwd(), "router")).forEach(file => {
     try {
         app.use(`/api/v1/${file.split(".")[0]}`, require(path.join(process.cwd(), "router", file))(app));
