@@ -18,7 +18,7 @@ app.disable("x-powered-by");
 app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors({ origin: "*", methods: ["GET", "POST"], credentials: true, allowedHeaders: ['Content-Type', 'Authorization'] }));
+app.use(cors({ origin: "http://localhost:3000", methods: ["GET", "POST"], credentials: true }));
 
 fs.readdirSync(path.join(process.cwd(), "router")).forEach(file => {
     try {
