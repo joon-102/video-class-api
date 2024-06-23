@@ -19,7 +19,7 @@ app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
-    origin: "https://video-class.vercel.app",
+    origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
 }));
