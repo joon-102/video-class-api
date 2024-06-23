@@ -1,21 +1,16 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "index.js",			
-        "use": "@vercel/node"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "/index.js"
-      },
-      {
-        "src": "/api/v1/(.*)",
-        "dest": "https://video-class-api.vercel.app/api/v1/$1"
-      }
-      
-      
-    ]
-  }
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.js"
+    }
+  ]
+}
+
