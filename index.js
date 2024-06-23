@@ -12,18 +12,17 @@ dotenv.config();
 
 app.set("PORT", process.env.PORT)
 app.set('MONGOOSE', process.env.MONGOOSE)
-app.use(cors({
-    origin: "https://video-class.vercel.app",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true,
-}));
 
 app.disable("x-powered-by");
 
 app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors({ origin: "https://video-class.vercel.app", methods: ["GET", "POST"], credentials: true }));
+app.use(cors({
+    origin: "https://video-class.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
+}));
 
 
 fs.readdirSync(path.join(process.cwd(), "router")).forEach(file => {
